@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Turnstile</title>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <script>
+        function tsCallback(key) {
+            console.log(`verifyStatus: ${key}`);
+        }
+        function idInput(key) {
+            console.log(`input`)
+        }
+        function acceptidpw(val) {
+            console.log(`val: ${val}`);
+        }
+    </script>
+</head>
+<body>
+<h2> Test Turnstile</h2>
+<form action="/login" method="POST">
+
+    <label for="useridID">User ID:</label>
+    <input type="text" id="useridID" name="useridID" value="" onchange="idInput">
+    <br>
+    <label for="passwordID">Password:</label>
+    <input type="text" id="passwordID" name="passwordID" value="">
+    <br>
+    <button onclick="acceptidpw(document.getElementById('useridID').value)">Accept</button>
+    <div
+            class="cf-turnstile"
+            data-sitekey="2x00000000000000000000AB"
+            data-callback="tsCallback(val)"
+    ></div>
+
+</form>
+
+
+</body>
+</html>
