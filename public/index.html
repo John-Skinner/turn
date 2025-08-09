@@ -7,12 +7,28 @@
     <script>
         function tsCallback(key) {
             console.log(`verifyStatus: ${key}`);
+            fetch(`https://${window.location.hostname}/verifykey/${key}`)
+                .then(res => {
+                    console.log(`result of verify: ${res}`);
+                    const submitPWButton = document.getElementById('submitUserIDPW');
+                    submitPWButton.disabled = false;
+                }).catch(err => console.log(err));
         }
+
         function idInput(key) {
             console.log(`input`)
         }
+
         function acceptidpw(val) {
             console.log(`val: ${val}`);
+        }
+
+        function validateTurnstile() {
+            console.log(`start form validation`);
+            let turnstileResponse = document.getElementByClassName('cf-turnstile');
+            if (turnstileResponse) {
+                console.log(`turnstile response: ${turnstileResponse.value}`);
+            }
         }
     </script>
 </head>
@@ -26,14 +42,14 @@
     <label for="passwordID">Password:</label>
     <input type="text" id="passwordID" name="passwordID" value="">
     <br>
-    <button onclick="acceptidpw(document.getElementById('useridID').value)">Accept</button>
+    <button id='submitUserIDPW' onclick="acceptidpw('doit')" disabled>Accept</button>
 
     <!-- use 2x00000000000000000000AB for always bad case -->
 
     <div
             class="cf-turnstile"
             data-sitekey="0x4AAAAAABpqcSvQIGuBhjsO"
-            data-callback="tsCallback(val)"
+            data-callback="tsCallback"
     ></div>
 
 </form>
