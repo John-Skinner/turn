@@ -47,6 +47,7 @@ app.post('/login', async (req, res) => {
 
     console.log(`remote ip: ${req.hostname}`);
     console.log(`body: ${JSON.stringify(req.body)}`);
+    res.sendFile('public/newPage.html',{root: __dirname});
 
 
 })
