@@ -10,25 +10,17 @@ const httpsOptions = {
 }
 app.use(express.static('public'));
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
     res.send('Hello from John');
 });
-app.get('/verifykey/:key', async (req, res) => {
-    console.log(`key: ${req.params.key}`);
-    console.log(`remote ip: ${req.hostname}`);
-    console.log(`remote header: ${JSON.stringify(req.header, null, 2)}`);
+app.post('/verifykey', async (req, res) => {
+
     let verifyForm = new FormData();
     verifyForm.append("secret", secreteTurnstileKey);
-    verifyForm.append("response", req.params.key);
+    verifyForm.append("response", req.body.response);
     verifyForm.append("remoteip", req.hostname);
 
-    const verifyRequest = {
-        secret: secreteTurnstileKey,
-        response: req.params.key,
-        remoteip: '18.223.94.171'
-    };
-    console.log(`verify ${JSON.stringify(verifyRequest, null, 2)}`);
     try {
         const verifyResult = await fetch(verifyUrl, {
             body: verifyForm,

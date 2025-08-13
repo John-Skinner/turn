@@ -5,9 +5,26 @@
     <title>Test Turnstile</title>
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script>
+        var cloudFlareSiteKey='0x4AAAAAABpqcSvQIGuBhjsO';
         function tsCallback(key) {
             console.log(`verifyStatus: ${key}`);
-            fetch(`https://${window.location.hostname}/verifykey/${key}`)
+
+            let bodyPart = {
+                'response': key,
+                'siteKey': cloudFlareSiteKey
+            }
+            let verifyRequest = new Request(
+                `https://${window.location.hostname}/verifykey`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify(bodyPart),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            fetch(verifyRequest)
                 .then(res => {
                     console.log(`result of verify: ${res}`);
                     const submitPWButton = document.getElementById('submitUserIDPW');
@@ -33,7 +50,7 @@
     </script>
 </head>
 <body>
-<h2> Test Turnstile</h2>
+<h2> Test Turnstile V3</h2>
 <form action="/login" method="POST">
 
     <label for="useridID">User ID:</label>
